@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qu'est-ce qu'une donnée ? — Culture numérique en sciences de la santé</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --card-bg: #0f3460;
+            --accent: #e94560;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --text: #f1f1f1;
+            --text-dim: #a8a8b3;
+            --c-struct: #3b82f6;
+            --c-text: #8b5cf6;
+            --c-signal: #f59e0b;
+            --c-meta: #6b7280;
+            --c-decision: #ef4444;
+            --c-interp: #10b981;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem 1rem 4rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .course-tag {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: rgba(6, 214, 160, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(6, 214, 160, 0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%)
+            }
+
+            100% {
+                transform: translateX(100%)
+            }
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--warning);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1.4rem 0 0.8rem;
+            color: var(--success);
+        }
+
+        p {
+            margin-bottom: 0.7rem;
+            font-size: 1.05rem;
+        }
+
+        .info-box {
+            background: rgba(255, 209, 102, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1.1rem 1.4rem;
+            border-radius: 10px;
+            margin: 1.1rem 0;
+            font-size: 0.98rem;
+        }
+
+        .info-box strong {
+            color: var(--warning);
+        }
+
+        .success-box {
+            background: rgba(6, 214, 160, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1.1rem 1.4rem;
+            border-radius: 10px;
+            margin: 1.1rem 0;
+            font-size: 0.98rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #c44569);
+            color: white;
+            border: none;
+            padding: 0.85rem 2.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Crimson Pro', serif;
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3);
+            margin-top: 1.2rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(233, 69, 96, 0.45);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #04a777);
+            box-shadow: 0 8px 25px rgba(6, 214, 160, 0.3);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 12px 35px rgba(6, 214, 160, 0.45);
+        }
+
+        /* ── CLINICAL NOTE shared ── */
+        .note-outer {
+            background: #fdf8ee;
+            border: 1.5px solid #c4b06a;
+            border-radius: 12px;
+            padding: 20px 24px 14px;
+            font-family: 'Crimson Pro', serif;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            margin: 1.6rem 0;
+            color: #1a120a;
+        }
+
+        .note-title-row {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a120a;
+            border-bottom: 1px solid #c4b06a;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+
+        .note-row {
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .note-label {
+            color: #6b5530;
+            font-style: italic;
+        }
+
+        .note-vital {
+            font-size: 15px;
+            font-weight: 700;
+            color: #a01800;
+            margin: 10px 0;
+        }
+
+        .note-footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px dashed #c4b06a;
+        }
+
+        .note-sig {
+            font-style: italic;
+            font-size: 12px;
+            color: #6b5530;
+        }
+
+        .stamp-circle {
+            border: 2px solid #0F6E56;
+            border-radius: 50%;
+            width: 74px;
+            height: 74px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #0F6E56;
+            font-size: 8px;
+            font-family: 'Space Mono', monospace;
+            text-align: center;
+            line-height: 1.4;
+            padding: 5px;
+            flex-shrink: 0;
+        }
+
+        .note-badge-row {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .badge-inner {
+            display: inline-block;
+            background: #fff0d0;
+            border: 0.5px solid #c4b06a;
+            border-radius: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: #6b5530;
+            padding: 3px 12px;
+        }
+
+        .ecg-zone {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 4px;
+            padding: 4px 6px;
+        }
+
+        .ecg-label {
+            font-size: 11px;
+            color: #6b5530;
+            font-family: 'Space Mono', monospace;
+            font-style: italic;
+        }
+
+        /* ── PHASE 1 chips — selectable, no tooltip ── */
+        .chip {
+            display: inline;
+            cursor: pointer;
+            border-radius: 3px;
+            padding: 2px 4px;
+            transition: background 0.15s, box-shadow 0.15s;
+        }
+
+        .chip:hover {
+            box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.6);
+        }
+
+        .chip.selected {
+            background: rgba(255, 209, 102, 0.32);
+            box-shadow: 0 0 0 2px var(--warning);
+        }
+
+        .stamp-circle.chip {
+            cursor: pointer;
+        }
+
+        .stamp-circle.chip:hover {
+            box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.6);
+        }
+
+        .stamp-circle.chip.selected {
+            background: rgba(255, 209, 102, 0.25);
+            box-shadow: 0 0 0 2px var(--warning);
+        }
+
+        .badge-inner.chip {
+            cursor: pointer;
+        }
+
+        .badge-inner.chip:hover {
+            box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.6);
+        }
+
+        .badge-inner.chip.selected {
+            background: rgba(255, 209, 102, 0.4);
+            box-shadow: 0 0 0 2px var(--warning);
+        }
+
+        .ecg-zone.chip {
+            cursor: pointer;
+        }
+
+        .ecg-zone.chip:hover {
+            box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.6);
+        }
+
+        .ecg-zone.chip.selected {
+            background: rgba(255, 209, 102, 0.25);
+            box-shadow: 0 0 0 2px var(--warning);
+        }
+
+        .score-bar {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 0.6rem;
+        }
+
+        .score-bar strong {
+            color: var(--warning);
+            font-size: 1.05rem;
+        }
+
+        /* ── PHASE 2 — reveal note category colors ── */
+        .reveal-note .chip {
+            cursor: default;
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .reveal-note .chip[data-cat="struct"] {
+            background: rgba(59, 130, 246, 0.18);
+            box-shadow: 0 0 0 2px var(--c-struct);
+        }
+
+        .reveal-note .chip[data-cat="text"] {
+            background: rgba(139, 92, 246, 0.18);
+            box-shadow: 0 0 0 2px var(--c-text);
+        }
+
+        .reveal-note .chip[data-cat="signal"] {
+            background: rgba(245, 158, 11, 0.18);
+            box-shadow: 0 0 0 2px var(--c-signal);
+        }
+
+        .reveal-note .chip[data-cat="meta"] {
+            background: rgba(107, 114, 128, 0.18);
+            box-shadow: 0 0 0 2px var(--c-meta);
+        }
+
+        .reveal-note .chip[data-cat="decision"] {
+            background: rgba(239, 68, 68, 0.18);
+            box-shadow: 0 0 0 2px var(--c-decision);
+        }
+
+        .reveal-note .chip[data-cat="interp"] {
+            background: rgba(16, 185, 129, 0.18);
+            box-shadow: 0 0 0 2px var(--c-interp);
+        }
+
+        .reveal-note .stamp-circle.chip[data-cat="meta"] {
+            border-color: var(--c-meta);
+            color: #4b5563;
+            background: rgba(107, 114, 128, 0.18);
+            box-shadow: 0 0 0 2px var(--c-meta);
+        }
+
+        .reveal-note .badge-inner.chip[data-cat="meta"] {
+            background: rgba(107, 114, 128, 0.15);
+            box-shadow: 0 0 0 2px var(--c-meta);
+        }
+
+        .reveal-note .ecg-zone.chip[data-cat="signal"] {
+            background: rgba(245, 158, 11, 0.18);
+            box-shadow: 0 0 0 2px var(--c-signal);
+        }
+
+        /* Tooltips — phase 2 only */
+        .reveal-note .tip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a2e;
+            color: #f1f1f1;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            line-height: 1.5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            width: 230px;
+            text-align: left;
+            white-space: normal;
+            z-index: 200;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            pointer-events: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+            transition: opacity 0.18s ease, visibility 0.18s ease;
+        }
+
+        .reveal-note .chip:hover .tip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Adjust stamp tooltip to not go off-screen right */
+        .reveal-note .stamp-circle .tip {
+            left: auto;
+            right: 0;
+            transform: none;
+        }
+
+        /* ── Legend table ── */
+        .legend-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.78rem;
+        }
+
+        .legend-table th {
+            background: rgba(255, 209, 102, 0.13);
+            padding: 0.65rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--warning);
+        }
+
+        .legend-table td {
+            padding: 0.55rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: middle;
+        }
+
+        .legend-dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            margin-right: 7px;
+            vertical-align: middle;
+        }
+
+        .legend-pill {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 3px;
+            border: 1px solid;
+        }
+
+        /* ── Completion header ── */
+        .reveal-header {
+            text-align: center;
+            padding: 2rem 2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.12), rgba(255, 209, 102, 0.12));
+            border-radius: 14px;
+            margin-bottom: 1.5rem;
+        }
+
+        .reveal-icon {
+            font-size: 3rem;
+            margin-bottom: 0.6rem;
+            animation: celebrate 0.8s ease-out;
+        }
+
+        .reveal-header h2 {
+            color: var(--success);
+            -webkit-text-fill-color: var(--success);
+            margin-bottom: 0.5rem;
+        }
+
+        .reveal-header p {
+            font-size: 1rem;
+            color: var(--text-dim);
+            margin: 0;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes celebrate {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(1.2) rotate(-8deg);
+            }
+
+            75% {
+                transform: scale(1.2) rotate(8deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .note-outer {
+                padding: 14px 14px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <div class="course-tag">Culture numérique en sciences de la santé · ULaval</div>
+            <h1>Qu'est-ce qu'une donnée ?</h1>
+            <p class="subtitle">Activité d'amorce — Les données en santé à l'ère de l'IA</p>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <!-- ══════════════════════
+     SECTION 1 — INTRO
+══════════════════════ -->
+        <div class="section active" id="sec1">
+            <h2>🩺 Mise en situation</h2>
+            <p>Voici une note clinique réelle, telle qu'elle pourrait figurer dans un dossier médical d'urgence. Elle a
+                été rédigée le 14 mars 2025 par un urgentiste.</p>
+            <div class="info-box">
+                <strong>Votre mission :</strong> dans la prochaine étape, identifiez tout ce qui vous semble être une
+                <em>donnée</em> dans cette note. Cliquez sur les éléments de votre choix — et recliquez pour changer
+                d'avis.
+            </div>
+            <p style="color:var(--text-dim); font-size:0.95rem;">Il n'y a pas de mauvaise réponse pour commencer.
+                Fiez-vous à votre intuition.</p>
+            <button class="btn" onclick="goTo(2)">Analyser la note →</button>
+        </div>
+
+        <!-- ══════════════════════
+     SECTION 2 — PHASE 1
+══════════════════════ -->
+        <div class="section" id="sec2">
+            <h2>Étape 1 — Qu'est-ce qui est une donnée ?</h2>
+            <p>Cliquez sur les éléments que vous considérez comme des <strong>données</strong>. Recliquez pour
+                désélectionner.</p>
+
+            <div class="note-outer" id="note1">
+
+                <div class="note-title-row">
+                    Notes cliniques — Consultation du&nbsp;<span class="chip" data-cat="meta"
+                        onclick="toggleChip(this)">14 mars 2025</span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Patient : </span>
+                    <span class="chip" data-cat="struct" onclick="toggleChip(this)">M. Lefebvre, 58 ans</span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Motif : </span>
+                    <span class="chip" data-cat="text" onclick="toggleChip(this)">Douleur thoracique depuis 3 jours,
+                        irradiant vers l'épaule gauche</span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Antécédents : </span>
+                    <span class="chip" data-cat="text" onclick="toggleChip(this)">HTA, tabagisme actif (20 PA)</span>
+                </div>
+
+                <div class="note-vital">
+                    <span class="chip" data-cat="struct" onclick="toggleChip(this)">TA : 162/98 mmHg &nbsp;⚠&nbsp; FC :
+                        94 bpm</span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">ECG : </span>
+                    <span class="chip" data-cat="interp" onclick="toggleChip(this)">sous-décalage ST en V2-V4 → SCA
+                        ?</span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Troponine : </span>
+                    <span class="chip" data-cat="decision" onclick="toggleChip(this)">à doser en urgence</span>
+                </div>
+
+                <div class="note-row" style="margin-top:10px;">
+                    <span class="ecg-zone chip" data-cat="signal" onclick="toggleChip(this)">
+                        <svg width="88" height="30" viewBox="0 0 88 30" fill="none">
+                            <polyline
+                                points="0,22 13,22 17,22 19,9 21,29 23,4 25,29 27,22 44,22 48,22 50,15 52,25 54,22 88,22"
+                                stroke="#1a120a" stroke-width="1.6" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="ecg-label">← ECG simplifié</span>
+                    </span>
+                </div>
+
+                <div class="note-row" style="margin-top:6px;">
+                    <span class="note-label">Conduite : </span>
+                    <span class="chip" data-cat="decision" onclick="toggleChip(this)">transfert SMUR + aspirine 500
+                        mg</span>
+                </div>
+
+                <div class="note-footer">
+                    <div class="note-sig">
+                        <span class="chip" data-cat="meta" onclick="toggleChip(this)">Dr. S. Martin — Urgences
+                            générales</span>
+                    </div>
+                    <div class="stamp-circle chip" data-cat="meta" onclick="toggleChip(this)">
+                        <div style="font-weight:700;font-size:9px;letter-spacing:0.03em">HÔPITAL<br>SAINT-LUC</div>
+                        <div>Service des<br>Urgences</div>
+                        <div>14/03/2025</div>
+                    </div>
+                </div>
+
+                <div class="note-badge-row">
+                    <span class="badge-inner chip" data-cat="meta" onclick="toggleChip(this)">Données non structurées —
+                        Note manuscrite</span>
+                </div>
+
+            </div><!-- /note1 -->
+
+            <div class="score-bar">Tu as identifié <strong id="scoreVal">0</strong> élément(s) comme données.</div>
+
+            <div style="text-align:center;">
+                <button class="btn btn-success" onclick="goTo(3)">Voir si j'ai raison →</button>
+            </div>
+        </div>
+
+        <!-- ══════════════════════
+     SECTION 3 — PHASE 2
+══════════════════════ -->
+        <div class="section" id="sec3">
+
+            <div class="reveal-header">
+
+                <h2>Tout est donnée.</h2>
+                <p>Chaque élément de cette note constitue une donnée — mais elles ne sont pas toutes du même type.<br>
+                    Survolez les zones colorées pour en apprendre plus.</p>
+            </div>
+
+            <div class="note-outer reveal-note">
+
+                <div class="note-title-row">
+                    Notes cliniques — Consultation du&nbsp;<span class="chip" data-cat="meta">14 mars 2025<span
+                            class="tip">Date de consultation : métadonnée temporelle. Sans elle, la note perd tout
+                            contexte clinique et juridique.</span></span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Patient : </span>
+                    <span class="chip" data-cat="struct">M. Lefebvre, 58 ans<span class="tip">Nom et âge : données
+                            démographiques structurées, directement saisies dans un champ de dossier
+                            médical.</span></span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Motif : </span>
+                    <span class="chip" data-cat="text">Douleur thoracique depuis 3 jours, irradiant vers l'épaule
+                        gauche<span class="tip">Récit de symptômes en langage naturel : donnée textuelle non structurée,
+                            difficile à traiter automatiquement par un algorithme.</span></span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Antécédents : </span>
+                    <span class="chip" data-cat="text">HTA, tabagisme actif (20 PA)<span class="tip">Antécédents
+                            médicaux en texte libre : données cliniques narratives, semi-structurées dans certains
+                            DME.</span></span>
+                </div>
+
+                <div class="note-vital">
+                    <span class="chip" data-cat="struct">TA : 162/98 mmHg &nbsp;⚠&nbsp; FC : 94 bpm<span class="tip">TA
+                            et FC : données numériques structurées, mesurables, directement comparables à des normes
+                            populationnelles.</span></span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">ECG : </span>
+                    <span class="chip" data-cat="interp">sous-décalage ST en V2-V4 → SCA ?<span class="tip">Lecture
+                            clinique d'un tracé : donnée d'interprétation. Subjective — deux médecins pourraient lire
+                            différemment le même tracé.</span></span>
+                </div>
+
+                <div class="note-row">
+                    <span class="note-label">Troponine : </span>
+                    <span class="chip" data-cat="decision">à doser en urgence<span class="tip">Ordre de prélèvement :
+                            donnée de décision médicale. Elle génère une future donnée (le résultat) qui n'existe pas
+                            encore.</span></span>
+                </div>
+
+                <div class="note-row" style="margin-top:10px;">
+                    <span class="ecg-zone chip" data-cat="signal">
+                        <svg width="88" height="30" viewBox="0 0 88 30" fill="none">
+                            <polyline
+                                points="0,22 13,22 17,22 19,9 21,29 23,4 25,29 27,22 44,22 48,22 50,15 52,25 54,22 88,22"
+                                stroke="#1a120a" stroke-width="1.6" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="ecg-label">← ECG simplifié</span>
+                        <span class="tip">Tracé ECG : donnée de signal biologique. Représentation d'un signal électrique
+                            continu du cœur — nécessite des algorithmes spécialisés pour être analysé.</span>
+                    </span>
+                </div>
+
+                <div class="note-row" style="margin-top:6px;">
+                    <span class="note-label">Conduite : </span>
+                    <span class="chip" data-cat="decision">transfert SMUR + aspirine 500 mg<span class="tip">Décision
+                            thérapeutique consignée : donnée de conduite clinique, traçable, auditable, qui engage la
+                            responsabilité médicale.</span></span>
+                </div>
+
+                <div class="note-footer">
+                    <div class="note-sig">
+                        <span class="chip" data-cat="meta">Dr. S. Martin — Urgences générales<span class="tip">Identité
+                                du clinicien et service : métadonnée de provenance. Elle conditionne l'interprétation —
+                                on ne lit pas pareil une note d'urgentiste et une note de cardiologue.</span></span>
+                    </div>
+                    <div class="stamp-circle chip" data-cat="meta">
+                        <div style="font-weight:700;font-size:9px;letter-spacing:0.03em">HÔPITAL<br>SAINT-LUC</div>
+                        <div>Service des<br>Urgences</div>
+                        <div>14/03/2025</div>
+                        <span class="tip">Hôpital, service, date tampon : métadonnées contextuelles indispensables à la
+                            validité juridique et à l'interprétation clinique du document.</span>
+                    </div>
+                </div>
+
+                <div class="note-badge-row">
+                    <span class="badge-inner chip" data-cat="meta">Données non structurées — Note manuscrite<span
+                            class="tip">Type de document : métadonnée de format. Indique que le contenu est non
+                            structuré — information cruciale pour tout système d'IA traitant ce document.</span></span>
+                </div>
+
+            </div><!-- /reveal-note -->
+
+            <h3>Les types de données dans cette note</h3>
+
+            <table class="legend-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Exemple</th>
+                        <th>Défi pour l'IA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="legend-dot" style="background:var(--c-struct)"></span>Données structurées</td>
+                        <td><span class="legend-pill"
+                                style="background:rgba(59,130,246,0.15); border-color:var(--c-struct); color:#93c5fd">TA,
+                                FC, âge</span></td>
+                        <td style="color:var(--text-dim)">Faciles à traiter automatiquement</td>
+                    </tr>
+                    <tr>
+                        <td><span class="legend-dot" style="background:var(--c-text)"></span>Données textuelles</td>
+                        <td><span class="legend-pill"
+                                style="background:rgba(139,92,246,0.15); border-color:var(--c-text); color:#c4b5fd">Motif,
+                                antécédents</span></td>
+                        <td style="color:var(--text-dim)">Nécessitent du NLP</td>
+                    </tr>
+                    <tr>
+                        <td><span class="legend-dot" style="background:var(--c-signal)"></span>Données de signal</td>
+                        <td><span class="legend-pill"
+                                style="background:rgba(245,158,11,0.15); border-color:var(--c-signal); color:#fcd34d">Tracé
+                                ECG</span></td>
+                        <td style="color:var(--text-dim)">Algorithmes de traitement du signal</td>
+                    </tr>
+                    <tr>
+                        <td><span class="legend-dot" style="background:var(--c-interp)"></span>Données d'interprétation
+                        </td>
+                        <td><span class="legend-pill"
+                                style="background:rgba(16,185,129,0.15); border-color:var(--c-interp); color:#6ee7b7">Lecture
+                                ECG → SCA ?</span></td>
+                        <td style="color:var(--text-dim)">Subjectives, dépendent de l'expert</td>
+                    </tr>
+                    <tr>
+                        <td><span class="legend-dot" style="background:var(--c-decision)"></span>Données de décision
+                        </td>
+                        <td><span class="legend-pill"
+                                style="background:rgba(239,68,68,0.15); border-color:var(--c-decision); color:#fca5a5">Aspirine,
+                                SMUR</span></td>
+                        <td style="color:var(--text-dim)">Engagent la responsabilité médicale</td>
+                    </tr>
+                    <tr>
+                        <td><span class="legend-dot" style="background:var(--c-meta)"></span>Métadonnées</td>
+                        <td><span class="legend-pill"
+                                style="background:rgba(107,114,128,0.15); border-color:var(--c-meta); color:#d1d5db">Date,
+                                médecin, hôpital</span></td>
+                        <td style="color:var(--text-dim)">Conditionnent validité et interprétation</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <strong>Ce que cela signifie pour l'IA en santé :</strong><br>
+                Toutes ces données coexistent dans un seul document, mais elles ne se collectent, ne se stockent et ne
+                se traitent <em>pas de la même façon</em>. Un système d'IA efficace en santé doit savoir reconnaître et
+                traiter chacun de ces types — c'est l'un des principaux défis de la médecine numérique.
+            </div>
+
+        </div><!-- /sec3 -->
+
+        <div
+            style="text-align:center; margin-top:2rem; font-family:'Space Mono',monospace; font-size:0.65rem; color:rgba(168,168,179,0.5); letter-spacing:0.08em; text-transform:uppercase;">
+            Culture numérique en sciences de la santé · Faculté de médecine · Université Laval
+        </div>
+
+    </div><!-- /container -->
+
+    <script>
+        let selectedCount = 0;
+
+        function toggleChip(el) {
+            if (el.classList.contains('selected')) {
+                el.classList.remove('selected');
+                selectedCount--;
+            } else {
+                el.classList.add('selected');
+                selectedCount++;
+            }
+            document.getElementById('scoreVal').textContent = selectedCount;
+        }
+
+        function goTo(n) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById('sec' + n);
+            target.classList.add('active');
+            const pct = { 1: 0, 2: 40, 3: 100 };
+            document.getElementById('progressBar').style.width = (pct[n] || 0) + '%';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        goTo(1);
+    </script>
+</body>
+
+</html>
