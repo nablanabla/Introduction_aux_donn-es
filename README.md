@@ -83,9 +83,3 @@ Université Laval, Québec, Canada
 
 **Contexte :** Cours "Culture Numérique en Sciences de la Santé"
 
-
-
-
----
-
-*Faculté de médecine · Université Laval*
