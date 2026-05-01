@@ -26,6 +26,8 @@ Cette activité vous invite à explorer une note clinique d'urgence et à identi
 
 <p align="center">
   <img src="assets/Pouls_classique.jpg" width="600" alt="Le pouls pris classiquement. [Source : Wikipedia]">
+  <br>
+  <em>Figure 1 : Le pouls pris classiquement. [Source : Wikipedia] </em>
 </p>
 
 En **médecine occidentale**, le pouls est pris au poignet et exprimé en battements par minute (bpm). C'est une **donnée numérique** — discrete, mesurable, comparable.
@@ -34,6 +36,8 @@ En **médecine occidentale**, le pouls est pris au poignet et exprimé en battem
 
 <p align="center">
   <img src="assets/pouls_médecine_chinoise.jpeg" width="600" alt="Le pouls en médecine chinoise. [Source : Doctissimo]">
+  <br>
+  <em>Figure 2 : Le pouls en médecine chinoise. [Source : Doctissimo] </em>
 </p>
 
 
