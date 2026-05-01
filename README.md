@@ -75,6 +75,13 @@ Traité par un grand modèle de langage (LLM), un texte devient un ensemble de d
 ---
 
 
+## 👨‍🏫 Auteur
+
+**Alban Da Silva**  
+Chargé d'Enseignement en Médecine - Faculté de Médecine  
+Université Laval, Québec, Canada
+
+**Contexte :** Cours "Culture Numérique en Sciences de la Santé"
 
 
 
