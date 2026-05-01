@@ -22,11 +22,20 @@ Cette activité vous invite à explorer une note clinique d'urgence et à identi
 ## Pour approfondir : les types de données
 
 ### L'exemple du pouls
-![Le pouls 1](assets/Pouls_classique.jpg)
+
+
+<p align="center">
+  <img src="assets/Pouls_classique.jpg" width="600" alt="Le pouls pris classiquement. [Source : Wikipedia]">
+</p>
 
 En **médecine occidentale**, le pouls est pris au poignet et exprimé en battements par minute (bpm). C'est une **donnée numérique** — discrete, mesurable, comparable.
 
-![Le pouls 2](assets/pouls_médecine_chinoise.jpeg)
+
+
+<p align="center">
+  <img src="assets/pouls_médecine_chinoise.jpeg" width="600" alt="Le pouls en médecine chinoise. [Source : Doctissimo]">
+</p>
+
 
 En **médecine traditionnelle chinoise**, le pouls est pris aux deux poignets, en trois positions et à trois profondeurs. On distingue jusqu'à 28 qualités de pouls (tendu, glissant, en corde…). C'est une **donnée qualitative** — riche, contextuelle, interprétative.
 
