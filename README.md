@@ -57,7 +57,7 @@ L'échelle de douleur de 0 à 10 (EVA — Échelle Visuelle Analogique) en est u
 Traité par un grand modèle de langage (LLM), un texte devient un ensemble de données quantitatives. Le texte est découpé en tokens, puis « plongé » dans un espace vectoriel à grande dimension. Ce qui semblait purement qualitatif devient le substrat d'opérations mathématiques.
 
 > **Le type d'une donnée est étroitement lié au traitement que l'on en fait.**  
-> Ce principe est au cœur de la culture numérique en santé.
+> Ce principe est au cœur de la science des données en santé.
 
 ---
 
